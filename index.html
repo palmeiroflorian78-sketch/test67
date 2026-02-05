@@ -26,9 +26,39 @@
             max-width: 400px;
         }
 
+        /* The Love Border for your photo */
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border: 8px solid #ff4081;
+            border-radius: 15px;
+            padding: 5px;
+            background: #fff0f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* Adding little hearts around the border */
+        .photo-frame::before {
+            content: "❤️";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+        }
+
         h1 {
             color: #d32f2f;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 20px;
         }
 
@@ -49,33 +79,22 @@
             transition: transform 0.2s;
         }
 
-        #yesBtn {
-            background-color: #ff4081;
-            color: white;
-        }
+        #yesBtn { background-color: #ff4081; color: white; }
+        #noBtn { background-color: #9e9e9e; color: white; position: absolute; left: 140px; }
 
-        #noBtn {
-            background-color: #9e9e9e;
-            color: white;
-            position: absolute;
-            left: 140px;
-        }
-
-        .gif-container img {
-            width: 150px;
-            border-radius: 10px;
-        }
-
-        #celebration {
-            display: none;
-        }
+        #celebration { display: none; }
+        .celebration-gif { width: 250px; border-radius: 15px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
+    <audio id="mySong" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container" id="mainCard">
-        <div class="gif-container">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZqZzR4eXh6eXh6eXh6eXh6eXh6eXh6eXh6eXh6ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute bear">
+        <div class="photo-frame">
+            <img src="your-photo.jpg" alt="Us">
         </div>
         <h1>Pia, will you be my Valentine? 🌹</h1>
         <div class="buttons">
@@ -85,31 +104,33 @@
     </div>
 
     <div id="celebration">
-        <h1 style="font-size: 3rem;">HELL YEAH, I LOVE YOU SO MUCH! 💚💚</h1>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpueGZ3bmZqZzR4eXh6eXh6eXh6eXh6eXh6eXh6eXh6eXh6ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26FLdmIp6wJr91JAI/giphy.gif" alt="Happy">
+        <h1 style="font-size: 2.5rem;">HELL YEAH, I LOVE YOU SO MUCH! 💚💚</h1>
+        <img src="success.gif" alt="Celebration" class="celebration-gif">
     </div>
 
     <script>
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            // Calculate random positions within the viewport
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         }
 
         function celebrate() {
+            // Start the music when she clicks Yes
+            const music = document.getElementById('mySong');
+            music.play();
+
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
             document.body.style.backgroundColor = '#ffcdd2';
             
-            // Optional: Alert for extra flair
             setTimeout(() => {
                 alert("You make my whole life better 💚");
             }, 500);
         }
     </script>
 </body>
+</html>
