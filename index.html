@@ -12,20 +12,38 @@
             justify-content: center; 
             height: 100vh; 
             margin: 0; 
-            /* CUTE BACKGROUND: A soft pink gradient with floating subtle patterns */
             background: radial-gradient(circle, #ffebee 0%, #ffcdd2 100%);
             font-family: 'Segoe UI', sans-serif; 
             text-align: center; 
             overflow: hidden; 
         }
 
-        /* Decorative background hearts that stay in the back */
+        /* Speaker Icon Style */
+        #musicToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 100;
+            user-select: none;
+        }
+
         .bg-heart {
             position: absolute;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 2rem;
             z-index: 0;
-            user-select: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
         .container { 
@@ -40,7 +58,6 @@
             border: 2px solid white;
         }
         
-        /* The Love Border with both hearts */
         .photo-frame { 
             width: 200px; 
             height: 200px; 
@@ -52,63 +69,19 @@
             background: white;
         }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Added the missing hearts to the border corners */
-        .photo-frame::after { content: "❤️"; position: absolute; bottom: 5px; right: 5px; font-size: 22px; filter: drop-shadow(0 0 5px white); }
-        .photo-frame::before { content: "💚"; position: absolute; top: 5px; left: 5px; font-size: 22px; filter: drop-shadow(0 0 5px white); z-index: 2; }
+        .photo-frame::after { content: "❤️"; position: absolute; bottom: 5px; right: 5px; font-size: 22px; }
+        .photo-frame::before { content: "💚"; position: absolute; top: 5px; left: 5px; font-size: 22px; z-index: 2; }
 
-        h1 { color: #d32f2f; font-size: 1.6rem; margin: 10px 0; line-height: 1.2; }
+        h1 { color: #d32f2f; font-size: 1.6rem; margin: 10px 0; }
+        .buttons { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 25px; height: 60px; width: 100%; position: relative; }
         
-        .buttons { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            gap: 20px; 
-            margin-top: 25px; 
-            height: 60px; 
-            width: 100%;
-            position: relative; 
-        }
-        
-        button { 
-            padding: 12px 25px; 
-            font-size: 18px; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        
+        button { padding: 12px 25px; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         #yesBtn { background-color: #ff4081; color: white; z-index: 11; }
-        
-        /* Fixed No Button position so it shows up initially */
-        #noBtn { 
-            background-color: #9e9e9e; 
-            color: white; 
-            position: relative; /* Starts relative so it's visible inside the container */
-            transition: 0.2s ease; 
-            touch-action: none;
-            z-index: 11;
-        }
+        #noBtn { background-color: #9e9e9e; color: white; position: relative; transition: 0.2s ease; touch-action: none; z-index: 11; }
 
         #celebration { display: none; z-index: 20; width: 95%; }
-        .media-group { 
-            display: flex; 
-            flex-direction: row; 
-            justify-content: center; 
-            gap: 15px; 
-            margin-top: 25px; 
-            flex-wrap: wrap; 
-        }
-        .celeb-media { 
-            width: 150px; 
-            height: 150px; 
-            border-radius: 20px; 
-            object-fit: cover; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
-            border: 5px solid white; 
-        }
+        .media-group { display: flex; flex-direction: row; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
+        .celeb-media { width: 140px; height: 140px; border-radius: 20px; object-fit: cover; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 4px solid white; }
 
         .heart-rain { position: fixed; top: -10vh; font-size: 2rem; animation: fall 3s linear forwards; z-index: 999; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
@@ -116,12 +89,14 @@
 </head>
 <body>
 
-    <div class="bg-heart" style="top:10%; left:10%;">🌸</div>
-    <div class="bg-heart" style="top:20%; right:15%;">✨</div>
-    <div class="bg-heart" style="bottom:15%; left:20%;">🎀</div>
-    <div class="bg-heart" style="bottom:20%; right:10%;">💖</div>
+    <div id="musicToggle" onclick="toggleMusic()">🔇</div>
 
-    <audio id="mySong" preload="auto">
+    <div class="bg-heart" style="top:10%; left:10%;">🌸</div>
+    <div class="bg-heart" style="top:25%; right:15%; animation-delay: 1s;">✨</div>
+    <div class="bg-heart" style="bottom:15%; left:20%; animation-delay: 2s;">🎀</div>
+    <div class="bg-heart" style="bottom:25%; right:10%; animation-delay: 3s;">💖</div>
+
+    <audio id="mySong" loop>
         <source src="song.mp3" type="audio/mpeg">
     </audio>
 
@@ -137,7 +112,7 @@
     </div>
 
     <div id="celebration">
-        <h1 style="font-size: 2.2rem; color: #d32f2f; text-shadow: 2px 2px white;">HELL YEAH! 💚💚</h1>
+        <h1 style="font-size: 2rem; color: #d32f2f;">HELL YEAH! 💚💚</h1>
         <div class="media-group">
             <img src="OPTIMUS.jpg" alt="Optimus" class="celeb-media">
             <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwcmswZWJ1YjZtNmF4eno2eDVyMnZmeHAyd3VnOWhtZjd0cTUwMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UmzxB1tP8SJPg9Gbh7/giphy.webp" alt="Gguh Dance" class="celeb-media">
@@ -146,10 +121,20 @@
 
     <script>
         const music = document.getElementById('mySong');
+        const toggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                toggle.innerText = "🔊";
+            } else {
+                music.pause();
+                toggle.innerText = "🔇";
+            }
+        }
 
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            // Once interacted with, we switch to fixed positioning so it can fly anywhere
             noBtn.style.position = 'fixed';
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -168,16 +153,13 @@
         }
 
         function celebrate() {
-            music.play().catch(e => console.log("Audio play error"));
+            music.play();
+            toggle.innerText = "🔊";
             document.getElementById('mainCard').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
             document.body.style.background = "#ffcdd2";
-            
             setInterval(createHeart, 200);
-
-            setTimeout(() => {
-                alert("You make my whole life better 💚");
-            }, 500);
+            setTimeout(() => { alert("You make my whole life better 💚"); }, 500);
         }
     </script>
 </body>
